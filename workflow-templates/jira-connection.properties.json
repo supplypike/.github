@@ -1,0 +1,5 @@
+{
+    "name": "JIRA Workflow",
+    "description": "Enforce PRs have attached JIRA ISSUE",
+    "iconName": "jira",
+}
