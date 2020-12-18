@@ -1,0 +1,24 @@
+name: JIRA Connection
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - edited
+      - synchronize
+
+jobs:
+  enforce-issue:
+    runs-on: self-hosted
+    name: Check for issue key
+    steps:
+      - run: |
+          grep -Eiw "$JIRA_PATTERN" <<< $PR_BRANCH\
+            || grep -Eiw "$JIRA_PATTERN" <<< $PR_TITLE\
+            || grep -Eiw "$JIRA_PATTERN" <<< $PR_BODY
+        env:
+          PR_BRANCH: ${{ github.event.pull_request.head.ref }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          JIRA_PATTERN: "SRENEW-[0-9]+"
