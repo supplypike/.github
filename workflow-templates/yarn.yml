@@ -1,0 +1,24 @@
+name: yarn
+on:
+  push:
+    branches:
+      - master
+  pull_request: {}
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Install Yarn # https://github.com/actions/setup-node/issues/182
+        run: npm install -g yarn@1.22.4
+      - name: Install and cache node modules
+        uses: bahmutov/npm-install@v1.1.0
+      - name: build
+        run: yarn build
+      - name: test
+        run: yarn test
